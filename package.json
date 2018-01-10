@@ -1,0 +1,44 @@
+{
+	"name": "huertbeat",
+	"version": "1.0.0",
+	"description": "Control your Philips Hue lights with MIDI triggers",
+	"main": "./index-compiled.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "babel index.es6.js --out-file index-compiled.js && node index-compiled.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/rileyjshaw/huertbeat.git"
+	},
+	"keywords": [
+		"music",
+		"audio",
+		"colors",
+		"spectrum",
+		"hue",
+		"lights",
+		"philips hue",
+		"pulse",
+		"heartbeat"
+	],
+	"author": "rileyjshaw <i@rileyjshaw.com> (http://rileyjshaw.com)",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/rileyjshaw/huertbeat/issues"
+	},
+	"homepage": "https://github.com/rileyjshaw/huertbeat#readme",
+	"dependencies": {
+		"average-color": "^2.0.2",
+		"express": "^4.16.2",
+		"huejay": "^1.7.3",
+		"midi": "^0.9.5",
+		"opn": "^5.1.0",
+		"spotify-web-api-node": "^2.5.0"
+	},
+	"devDependencies": {
+		"babel-cli": "^6.26.0",
+		"babel-plugin-transform-es2015-modules-commonjs": "^6.26.0",
+		"babel-preset-es2015": "^6.24.1"
+	}
+}
