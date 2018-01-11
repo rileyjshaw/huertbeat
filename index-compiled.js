@@ -63,6 +63,8 @@ var QUARTER_NOTES = 2;
 // Color variables.
 var SATURATION = 1;
 var BRIGHTNESS = 1;
+var INITIAL_HUE = 230; // Degrees.
+var HUE_INCREMENT = 30; // Degrees.
 
 var app = (0, _express2.default)();
 
@@ -83,7 +85,7 @@ app.get('/callback', function (req, res) {
 		var currentTrack = void 0;
 		var intervalId = void 0;
 		var toggle = true;
-		var hue = 230;
+		var hue = INITIAL_HUE;
 
 		var checkForNewSong = function checkForNewSong() {
 			spotifyClient.getMyCurrentPlayingTrack().then(function (_ref) {
@@ -120,7 +122,7 @@ app.get('/callback', function (req, res) {
 						updateLights();
 						intervalId = (0, _correctingInterval.setCorrectingInterval)(function () {
 							toggle = !toggle;
-							hue = (hue + 4) % 360;
+							hue = (hue + HUE_INCREMENT) % 360;
 							updateLights();
 						}, period * 1000);
 					}).catch(function (err) {

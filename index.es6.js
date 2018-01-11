@@ -45,6 +45,8 @@ const QUARTER_NOTES = 2;
 // Color variables.
 const SATURATION = 1;
 const BRIGHTNESS = 1;
+const INITIAL_HUE = 230;   // Degrees.
+const HUE_INCREMENT = 30;  // Degrees.
 
 const app = express();
 
@@ -97,7 +99,7 @@ app.get('/callback', (req, res) => {
 		let currentTrack;
 		let intervalId;
 		let toggle = true;
-		let hue = 230;
+		let hue = INITIAL_HUE;
 
 		const checkForNewSong = () => {
 			spotifyClient.getMyCurrentPlayingTrack()
@@ -131,7 +133,7 @@ app.get('/callback', (req, res) => {
 									updateLights();
 									intervalId = setCorrectingInterval(() => {
 										toggle = !toggle;
-										hue = (hue + 4) % 360;
+										hue = (hue + HUE_INCREMENT) % 360;
 										updateLights();
 									}, period * 1000);
 								})

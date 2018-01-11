@@ -1,6 +1,6 @@
 {
 	"name": "huertbeat",
-	"version": "1.1.0",
+	"version": "1.2.0",
 	"description": "Control your Philips Hue lights with MIDI triggers",
 	"main": "./index-compiled.js",
 	"scripts": {
