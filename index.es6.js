@@ -36,6 +36,7 @@ import express from 'express';
 import huejay from 'huejay';
 import opn from 'opn';
 import SpotifyWebApi from 'spotify-web-api-node';
+import {clearCorrectingInterval, setCorrectingInterval} from 'correcting-interval';
 
 import credentials from './.credentials.json';
 
@@ -103,7 +104,7 @@ app.get('/callback', (req, res) => {
 				.then(({body: {item}}) => {
 					const newTrack = item.id;
 					if (newTrack === currentTrack) return;
-					clearInterval(intervalId);
+					clearCorrectingInterval(intervalId);
 					currentTrack = newTrack;
 
 					spotifyClient.getAudioFeaturesForTrack(currentTrack)
@@ -112,7 +113,6 @@ app.get('/callback', (req, res) => {
 
 							hueClient.lights.getAll()
 								.then(lights => {
-
 									const updateLights = () => lights.forEach(light => {
 										if (!light.reachable) return;
 
@@ -129,7 +129,7 @@ app.get('/callback', (req, res) => {
 									});
 
 									updateLights();
-									intervalId = setInterval(() => {
+									intervalId = setCorrectingInterval(() => {
 										toggle = !toggle;
 										hue = (hue + 4) % 360;
 										updateLights();
@@ -148,6 +148,6 @@ app.get('/callback', (req, res) => {
 		};
 
 		checkForNewSong();
-		setInterval(checkForNewSong, 1000);  // Re-check for new song every second.
+		setCorrectingInterval(checkForNewSong, 1000);  // Re-check for new song every second.
 	}).catch(err => console.log('Uh oh, auth failed:', err));
 });

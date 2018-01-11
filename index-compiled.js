@@ -50,6 +50,8 @@ var _spotifyWebApiNode = require('spotify-web-api-node');
 
 var _spotifyWebApiNode2 = _interopRequireDefault(_spotifyWebApiNode);
 
+var _correctingInterval = require('correcting-interval');
+
 var _credentials = require('./.credentials.json');
 
 var _credentials2 = _interopRequireDefault(_credentials);
@@ -89,7 +91,7 @@ app.get('/callback', function (req, res) {
 
 				var newTrack = item.id;
 				if (newTrack === currentTrack) return;
-				clearInterval(intervalId);
+				(0, _correctingInterval.clearCorrectingInterval)(intervalId);
 				currentTrack = newTrack;
 
 				spotifyClient.getAudioFeaturesForTrack(currentTrack).then(function (_ref2) {
@@ -98,7 +100,6 @@ app.get('/callback', function (req, res) {
 					var period = 60 / audioFeatures.tempo * QUARTER_NOTES;
 
 					hueClient.lights.getAll().then(function (lights) {
-
 						var updateLights = function updateLights() {
 							return lights.forEach(function (light) {
 								if (!light.reachable) return;
@@ -117,7 +118,7 @@ app.get('/callback', function (req, res) {
 						};
 
 						updateLights();
-						intervalId = setInterval(function () {
+						intervalId = (0, _correctingInterval.setCorrectingInterval)(function () {
 							toggle = !toggle;
 							hue = (hue + 4) % 360;
 							updateLights();
@@ -137,7 +138,7 @@ app.get('/callback', function (req, res) {
 		};
 
 		checkForNewSong();
-		setInterval(checkForNewSong, 1000); // Re-check for new song every second.
+		(0, _correctingInterval.setCorrectingInterval)(checkForNewSong, 1000); // Re-check for new song every second.
 	}).catch(function (err) {
 		return console.log('Uh oh, auth failed:', err);
 	});
