@@ -61,10 +61,11 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var QUARTER_NOTES = 2;
 
 // Color variables.
-var SATURATION = 1;
-var BRIGHTNESS = 1;
+var SATURATION = 1; // [0, 1].
+var BRIGHTNESS = 1; // [0, 1].
 var INITIAL_HUE = 230; // Degrees.
-var HUE_INCREMENT = 30; // Degrees.
+var HUE_INCREMENT = 53; // Degrees.
+var SMOOTHNESS = 0.8; // [0, 1] with 1 being the smoothest transition.
 
 var app = (0, _express2.default)();
 
@@ -107,7 +108,7 @@ app.get('/callback', function (req, res) {
 								if (!light.reachable) return;
 
 								light.on = toggle;
-								light.transitionTime = Math.floor(period * 10) / 10;
+								light.transitionTime = Math.floor(period * 10 * SMOOTHNESS) / 10;
 
 								if (toggle) {
 									light.hue = Math.round(hue / 360 * 65535); // uint16

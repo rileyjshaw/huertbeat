@@ -43,10 +43,11 @@ import credentials from './.credentials.json';
 const QUARTER_NOTES = 2;
 
 // Color variables.
-const SATURATION = 1;
-const BRIGHTNESS = 1;
+const SATURATION = 1;  // [0, 1].
+const BRIGHTNESS = 1;  // [0, 1].
 const INITIAL_HUE = 230;   // Degrees.
-const HUE_INCREMENT = 30;  // Degrees.
+const HUE_INCREMENT = 53;  // Degrees.
+const SMOOTHNESS = 0.8;  // [0, 1] with 1 being the smoothest transition.
 
 const app = express();
 
@@ -119,7 +120,7 @@ app.get('/callback', (req, res) => {
 										if (!light.reachable) return;
 
 										light.on = toggle;
-										light.transitionTime = Math.floor(period * 10) / 10;
+										light.transitionTime = Math.floor(period * 10 * SMOOTHNESS) / 10;
 
 										if (toggle) {
 											light.hue = Math.round(hue / 360 * 65535);        // uint16
